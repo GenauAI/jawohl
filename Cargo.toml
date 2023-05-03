@@ -2,7 +2,21 @@
 name = "streaming-json-completer"
 version = "0.1.0"
 edition = "2021"
+authors = ["Zack Maril <zack@genau.ai>"]
+description = ""
+keywords = []
+license = "MIT"
+documentation = "https://genau.ai"
+homepage = "https://github.com/genauai/streaming-json-completer"
+repository = "https://github.com/genauai/streaming-json-completer"
+readme = "README.md"
+
+[lib]
+path = "src/lib.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[dependencies]
+[dev-dependencies]
+quickcheck = "1"
+quickcheck_macros = "1"
+serde_json = "1.0.96"
