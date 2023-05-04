@@ -1,6 +1,7 @@
 use combine::error::ParseError;
 use combine::parser::char::{digit, spaces, string};
 use combine::EasyParser;
+use combine::json::JsonValue;
 use combine::{between, choice, many1, optional, Parser, Stream};
 
 #[derive(Debug, PartialEq, Clone)]
@@ -119,17 +120,20 @@ where
     between(combine::token('"'), combine::token('"'), string_content)
 }
 
-// fn json_array<Input>() -> impl Parser<Input, Output = JsonValue>
-// where
-//     Input: Stream<Token = char>,
-//     Input::Error: ParseError<Input::Token, Input::Range, Input::Position>,
-// {
-//     let parser = spaces()
-//         .with(json_value())
-//         .skip(spaces())
-//         .sep_by(combine::token(','));
-//     between(combine::token('['), combine::token(']'), parser).map(JsonValue::Array)
-// }
+fn json_array<Input>() -> impl Parser<Input, Output = JsonValue>
+where
+    Input: Stream<Token = char>,
+    Input::Error: ParseError<Input::Token, Input::Range, Input::Position>,
+{
+    // let parser = spaces()
+    //     .with(json_value())
+    //     .skip(spaces())
+    //     .sep_by(combine::token(','));
+    let jv = json_value();
+
+    let parser = jv.sep_by(combine::token(','));
+    between(combine::token('['), combine::token(']'), parser).map(JsonValue::Array)
+}
 
 // fn json_object<Input>() -> impl Parser<Input, Output = JsonValue>
 // where
@@ -159,11 +163,10 @@ where
         json_bool(),
         json_number(),
         json_string().map(JsonValue::String),
-        //json_array(),
+        json_array(),
         //json_object(),
     ))
 }
-
 #[cfg(test)]
 mod tests {
     use super::*;
