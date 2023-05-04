@@ -47,6 +47,10 @@ pub fn complete_json(json: &str) -> String {
     let mut char_iter = json.chars().peekable();
 
     while let Some(c) = char_iter.next() {
+        println!("\nstart of loop");
+        dbg!(c);
+        dbg!(&result);
+        dbg!(context_stack.clone());
         match context_stack.last_mut().unwrap().context_type {
             ContextType::TopLevel => start_any(c, &mut context_stack),
             ContextType::String => match c {
@@ -132,11 +136,18 @@ pub fn complete_json(json: &str) -> String {
                 }
             }
             ContextType::True => {
-                if let Some(next) = char_iter.peek() {
+                let cc = char_iter.peek();
+                dbg!(cc);
+                if let Some(next) = cc {
+                    dbg!(next);
                     if !next.is_alphabetic() {
                         context_stack.pop();
                         finish_word(&mut result, "true");
                     }
+                }
+                else {
+                    context_stack.pop();
+                    finish_word(&mut result, "true");
                 }
             }
             ContextType::False => {
@@ -246,6 +257,10 @@ pub fn complete_json(json: &str) -> String {
         }
     }
 
+    println!("Loop is done, here is what we got");
+    dbg!(result.clone());
+    dbg!(context_stack.clone());
+
     for context in context_stack.iter().rev() {
         match context.context_type {
             ContextType::String => result.push('"'),
@@ -297,6 +312,8 @@ fn start_any(c: char, context_stack: &mut Vec<Context>) {
 }
 
 fn finish_word(result: &mut String, word: &str) {
+    dbg!(word);
+    dbg!(result.clone());
     result.push_str(word);
 }
 

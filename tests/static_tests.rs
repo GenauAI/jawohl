@@ -2,10 +2,11 @@
 #[cfg(test)]
 mod static_tests {
     use streaming_json_completer::complete_json::complete_json;
+    use streaming_json_completer::complete_json2::untruncate_json;
     use serde_json::json;
 
     fn expect_unchanged(json: &str) {
-        assert_eq!(complete_json(json), "".to_string());
+        assert_eq!(untruncate_json(json), "".to_string());
     }
 
     #[test]
@@ -70,6 +71,7 @@ mod static_tests {
         });
 
         let json_string = value.to_string();
+        dbg!(json_string.clone());
         expect_unchanged(&json_string);
     }
 
@@ -83,7 +85,7 @@ mod static_tests {
 
         for i in 1..json.len() {
             let partial_json = &json[..i];
-            let fixed_json = complete_json(partial_json);
+            let fixed_json = untruncate_json(partial_json);
 
             assert!(serde_json::from_str::<serde_json::Value>(&fixed_json).is_ok(),
                     "Failed to produce valid JSON. \n\nInput:\n\n{}\n\nOutput (invalid JSON):\n\n{}\n\n",
