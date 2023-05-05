@@ -1,6 +1,6 @@
 [package]
 name = "streaming-json-completer"
-version = "0.1.0"
+version = "0.2.0-dev"
 edition = "2021"
 authors = ["Zack Maril <zack@genau.ai>"]
 description = "Complete JSON documents from a stream of JSON tokens"
