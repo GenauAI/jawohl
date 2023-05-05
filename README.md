@@ -1,4 +1,5 @@
-![Genau](genau.png)
+<img src="genau.png" alt="Genau" width="100" height="100">
+
 # Streaming JSON Completer
 
 Streaming JSON Completer is a Rust library that helps you complete an incomplete JSON string by automatically adding the missing closing characters (quotes, braces, and brackets). This is particularly useful when you're dealing with streaming JSON data or working with partial JSON strings and need to ensure that the JSON is valid for further processing.
