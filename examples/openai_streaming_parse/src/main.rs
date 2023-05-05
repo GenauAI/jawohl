@@ -8,7 +8,7 @@ use dotenv::dotenv;
 use std::error::Error;
 use std::io::{stdout, Write};
 
-use streaming_json_completer::complete_json;
+use jawohl::complete_json;
 
 use async_openai::{
     types::{ChatCompletionRequestMessageArgs, CreateChatCompletionRequestArgs, Role},
@@ -55,10 +55,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                         s += content.as_str();
                         write!(lock, "new text {}\n", s).unwrap();
 
-                        if let Ok(json_end) = complete_json(&s) {
-                            write!(lock, "json_end {}\n", json_end).unwrap();
-                            let completed = s.to_string() + json_end.as_str();
-
+                        if let Ok(completed) = complete_json(&s) {
                             if let Ok(json_str) = colorizer.colorize_json_str(&completed) {
                                 println!("{}", json_str);
                             }

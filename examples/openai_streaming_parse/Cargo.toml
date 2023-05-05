@@ -8,7 +8,7 @@ publish = false
 
 [dependencies]
 async-openai = "0.10.3"
-streaming-json-completer = {path = "../../../streaming-json-completer"}
+jawohl = {path = "../../../jawohl"}
 tokio = { version = "1.25.0", features = ["full"] }
 futures = "0.3.26"
 dotenv = "0.15.0"

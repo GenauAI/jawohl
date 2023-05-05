@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests {
-    use streaming_json_completer::complete_json;
+    use jawohl::{complete_json, get_closing_string_for_partial_json};
+    use serde_json::from_str;
 
     #[test]
     fn test_complete_json() {
@@ -14,7 +15,13 @@ mod tests {
         ];
 
         for (input, expected) in cases {
-            assert_eq!(complete_json(input).unwrap(), expected);
+            let closing = get_closing_string_for_partial_json(input);
+            assert!(closing.is_ok());
+            assert_eq!(closing.unwrap(), expected);
+
+            let complete = complete_json(input).unwrap();
+            let _parsed = from_str::<serde_json::Value>(&complete);
+            assert!(_parsed.is_ok());
         }
     }
 
@@ -29,8 +36,6 @@ mod tests {
         ];
 
         for input in cases {
-            dbg!(input);
-            dbg!(complete_json(input));
             assert!(complete_json(input).is_err());
         }
     }

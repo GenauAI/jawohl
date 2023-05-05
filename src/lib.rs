@@ -12,7 +12,7 @@ impl fmt::Display for MalformedJsonError {
 
 impl Error for MalformedJsonError {}
 
-pub fn complete_json(input: &str) -> Result<String, MalformedJsonError> {
+pub fn get_closing_string_for_partial_json(input: &str) -> Result<String, MalformedJsonError> {
     let mut stack = Vec::new();
     let mut in_string = false;
     let mut escape = false;
@@ -50,4 +50,9 @@ pub fn complete_json(input: &str) -> Result<String, MalformedJsonError> {
     }
 
     Ok(stack.into_iter().rev().collect())
+}
+
+pub fn complete_json(input: &str) -> Result<String, MalformedJsonError> {
+    let closing = get_closing_string_for_partial_json(input)?;
+    Ok(input.to_string() + &closing)
 }
