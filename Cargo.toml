@@ -11,11 +11,9 @@ homepage = "https://github.com/genauai/streaming-json-completer"
 repository = "https://github.com/genauai/streaming-json-completer"
 readme = "README.md"
 
-[lib]
-path = "src/lib.rs"
-
 [dependencies]
 combine = "4.6.6"
+criterion = "0.3.4"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -24,3 +22,7 @@ serde_json = "1.0.96"
 rand = "0.8.5"
 arbitrary-json = "0.1.1"
 libfuzzer-sys = "0.4.6"
+
+[features]
+default = ["std"]
+std = []
