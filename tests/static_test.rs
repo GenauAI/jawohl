@@ -1,69 +1,37 @@
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
-    use streaming_json_completer::{json_value, Value::*};
-
-    use combine::{EasyParser, Parser};
+    use streaming_json_completer::complete_json;
 
     #[test]
-    fn json_test() {
-        let input = r#"{
-    "array": [1, ""],
-    "object": {},
-    "number": 3.15,
-    "small_number": 0.59,
-    "int": -100,
-    "exp": -1e2,
-    "exp_neg": 23e-2,
-    "true": true,
-    "false"  : false,
-    "null" : null
-}"#;
-        let result = json_value().easy_parse(input);
-        let expected = Object(
-            vec![
-                ("array", Array(vec![Number(1.0), String("".to_string())])),
-                ("object", Object(HashMap::new())),
-                ("number", Number(3.15)),
-                ("small_number", Number(0.59)),
-                ("int", Number(-100.)),
-                ("exp", Number(-1e2)),
-                ("exp_neg", Number(23E-2)),
-                ("true", Bool(true)),
-                ("false", Bool(false)),
-                ("null", Null),
-            ]
-            .into_iter()
-            .map(|(k, v)| (k.to_string(), v))
-            .collect(),
-        );
-        match result {
-            Ok(result) => assert_eq!(result, (expected, "")),
-            Err(e) => {
-                println!("{}", e);
-                panic!();
-            }
+    fn test_complete_json() {
+        let cases = vec![
+            (r#"{"key": "value", "arr": [1, 2, {"nested_key": "nested_value""#, "}]}"),
+            (r#"{"foo": "bar", "nested": {"a": [1, 2, 3], "b": "text""#, "}}"),
+            (r#"["hello", "world", {"key": "value""#, "}]"),
+            (r#"{"escaped_quote": "This is an \"escaped\" quote", "nested": [1, 2, 3, {"a": 4, "b": 5}, 6], "more_data": 1"#, "}"),
+            (r#"["item1", "item2", {"key1": "value1", "key2": ["sub_item1", "sub_item2", {"sub_key": "sub_value""#, "}]}]"),
+            (r#"{"name": "Bob"#, "\"}")
+        ];
+
+        for (input, expected) in cases {
+            assert_eq!(complete_json(input).unwrap(), expected);
         }
     }
 
     #[test]
-    fn partial_json_test() {
-        let input = r#"{"a":1"#;
-        let result = json_value().parse_stream_partial(input, &mut Default::default());
-        let expected = Object(
-            vec![
-                ("a", Number(1.0))
-            ]
-            .into_iter()
-            .map(|(k, v)| (k.to_string(), v))
-            .collect(),
-        );
-        match result {
-            Ok(result) => assert_eq!(result, (expected, "")),
-            Err(e) => {
-                println!("{}", e);
-                panic!();
-            }
+    fn test_malformed_json() {
+        let cases = vec![
+            r#"{"key": "value"}}"#,
+            r#"{"foo": "bar"}}"#,
+            r#"["hello", "world"]]"#,
+            r#"{"key": "value", "arr": [1, 2], }}]"#,
+            r#"{"foo": "bar", "nested": {"a": [[1, 2, 3], "b": "text"}}"#,
+        ];
+
+        for input in cases {
+            dbg!(input);
+            dbg!(complete_json(input));
+            assert!(complete_json(input).is_err());
         }
     }
 }
