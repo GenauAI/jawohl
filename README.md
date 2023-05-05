@@ -1,4 +1,7 @@
-<img src="genau.png" alt="Genau" width="100" height="100">
+<p align="center">
+  <img src="genau-removebg.png" alt="Genau" width="200" height="200">
+</p>
+
 
 # Streaming JSON Completer
 
