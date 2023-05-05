@@ -3,7 +3,7 @@ mod tests {
     use std::collections::HashMap;
     use streaming_json_completer::{json_value, Value::*};
 
-    use combine::EasyParser;
+    use combine::{EasyParser, Parser};
 
     #[test]
     fn json_test() {
@@ -32,6 +32,27 @@ mod tests {
                 ("true", Bool(true)),
                 ("false", Bool(false)),
                 ("null", Null),
+            ]
+            .into_iter()
+            .map(|(k, v)| (k.to_string(), v))
+            .collect(),
+        );
+        match result {
+            Ok(result) => assert_eq!(result, (expected, "")),
+            Err(e) => {
+                println!("{}", e);
+                panic!();
+            }
+        }
+    }
+
+    #[test]
+    fn partial_json_test() {
+        let input = r#"{"a":1"#;
+        let result = json_value().parse_stream_partial(input, &mut Default::default());
+        let expected = Object(
+            vec![
+                ("a", Number(1.0))
             ]
             .into_iter()
             .map(|(k, v)| (k.to_string(), v))

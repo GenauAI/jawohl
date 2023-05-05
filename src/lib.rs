@@ -5,7 +5,7 @@ extern crate combine;
 use std::{collections::HashMap};
 
 use combine::{
-    error::{Commit, ParseError},
+    error::{Commit, ParseError, StreamError},
     parser::{
         char::{char, digit, spaces, string},
         choice::{choice, optional},
@@ -13,9 +13,18 @@ use combine::{
         repeat::{many, many1, sep_by},
         sequence::between,
         token::{any, satisfy, satisfy_map},
+            combinator::{any_partial_state, AnyPartialState},
+
+            range::{range, recognize, take},
     },
     Parser, Stream, StreamOnce,
+        stream::{easy, PartialStream, RangeStream, StreamErrorFor},
+
 };
+
+pub struct JsonDecoder {
+    state: AnyPartialState
+}
 
 #[derive(PartialEq, Debug)]
 pub enum Value {
