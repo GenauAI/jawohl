@@ -36,7 +36,9 @@ fn main() {
 }
 ```
 
-For more examples and advanced usage, refer to the examples directory. In particular, the [https://github.com/GenauAI/streaming-json-completer/blob/main/examples/openai_streaming_parse/src/main.rs](OpenAI Streaming Parse) example shows how to use JSON Completer to parse a stream of JSON data from OpenAI's API (while using [https://github.com/64bit/async-openai](64bit's async-openai library )).
+For more examples and advanced usage, refer to the examples directory. In particular, the [OpenAI Streaming Parse](https://github.com/GenauAI/streaming-json-completer/blob/main/examples/openai_streaming_parse/src/main.rs) example shows how to use JSON Completer to parse a stream of JSON data from OpenAI's API (using [64bit's async-openai library](https://github.com/64bit/async-openai)).
+
+[![asciicast](https://asciinema.org/a/TaVsv5vvrS36ihoJTs62kaJ0r.svg)](https://asciinema.org/a/TaVsv5vvrS36ihoJTs62kaJ0r)
 
 # Running Tests
 
