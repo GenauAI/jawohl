@@ -3,7 +3,7 @@
 #
 #    maturin generate-ci github
 #
-name: Continiuous Integration for Python
+name: Continuous Integration for Python
 
 on:
   push:

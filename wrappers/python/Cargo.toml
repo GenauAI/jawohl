@@ -11,7 +11,3 @@ crate-type = ["cdylib"]
 [dependencies]
 pyo3 = "0.18.1"
 jawohl = { path = "../../../jawohl" }
-
-[features]
-extension-module = ["pyo3/extension-module"]
-default = ["extension-module"]
