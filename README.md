@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="genau-removebg.png" alt="Genau" width="200" height="200">
+  <img src="images/genau-removebg.png" alt="Genau" width="200" height="200">
 </p>
 
 # jawohl
