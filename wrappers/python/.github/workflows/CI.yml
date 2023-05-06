@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - main
+      - master
     tags:
       - '*'
   pull_request:
@@ -19,8 +20,6 @@ permissions:
 
 jobs:
   linux:
-    defaults:
-      working-directory: wrappers/python
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -44,8 +43,6 @@ jobs:
           path: dist
 
   windows:
-    defaults:
-      working-directory: wrappers/python
     runs-on: windows-latest
     strategy:
       matrix:
@@ -69,8 +66,6 @@ jobs:
           path: dist
 
   macos:
-    defaults:
-      working-directory: wrappers/python
     runs-on: macos-latest
     strategy:
       matrix:
@@ -93,8 +88,6 @@ jobs:
           path: dist
 
   sdist:
-    defaults:
-      working-directory: wrappers/python
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -110,8 +103,6 @@ jobs:
           path: dist
 
   release:
-    defaults:
-      working-directory: wrappers/python
     name: Release
     runs-on: ubuntu-latest
     if: "startsWith(github.ref, 'refs/tags/')"
