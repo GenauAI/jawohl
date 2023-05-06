@@ -9,7 +9,6 @@ on:
   push:
     branches:
       - main
-      - master
     tags:
       - '*'
   pull_request:
@@ -19,6 +18,8 @@ permissions:
   contents: read
 
 jobs:
+  defaults:
+    working-directory: wrappers/python
   linux:
     runs-on: ubuntu-latest
     strategy:
