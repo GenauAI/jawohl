@@ -1,0 +1,14 @@
+name: Top-level Workflow
+
+on: [push, pull_request]
+
+jobs:
+  subdirectory-workflow:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Run subdirectory workflow
+      uses: ./.github/workflows/wrappers/python/CI
