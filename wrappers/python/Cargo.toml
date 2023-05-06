@@ -1,16 +1,15 @@
 [package]
-name = "jawohl-py"
+name = "jawohlpy"
 version = "0.1.0-dev"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
-name = "jawohl"
+name = "jawohlpy"
 crate-type = ["cdylib"]
 
 [dependencies]
 jawohl = { path = "../../../jawohl" }
 
-[dependencies.pyo3]
-version = "^0.18.1"
-features = ["extension-module"]
+[dependencies]
+pyo3 = "0.18.1"
